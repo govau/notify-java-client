@@ -62,7 +62,7 @@ jobs:
         paths:
         - build
 
-  publish-to-bintray:
+  publish-to-bintray-jcenter:
     <<: *java_image
     steps:
     - *attach_workspace
@@ -85,7 +85,7 @@ workflows:
         requires:
         - download-dependencies
 
-    - publish-to-bintray:
+    - publish-to-bintray-jcenter:
         <<: *master_branch
         requires:
         - test-and-build
