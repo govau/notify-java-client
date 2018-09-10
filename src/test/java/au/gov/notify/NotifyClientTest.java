@@ -11,7 +11,7 @@ import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class NotificationClientTest {
+public class NotifyClientTest {
 
     private final String serviceId = UUID.randomUUID().toString();
 
@@ -22,7 +22,7 @@ public class NotificationClientTest {
 
     @Test
     public void testCreateNotificationClient_withSingleApiKeyAndBaseUrl(){
-        NotificationClient client = new NotificationClient(combinedApiKey, baseUrl);
+        NotifyClient client = new NotifyClient(combinedApiKey, baseUrl);
         assertNotificationClient(client);
 
     }
@@ -30,33 +30,33 @@ public class NotificationClientTest {
     @Test
     public void testCreateNotificationClient_withSingleApiKeyAndProxy() {
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.0.0.1", 8080));
-        NotificationClient client = new NotificationClient(combinedApiKey, baseUrl, proxy);
+        NotifyClient client = new NotifyClient(combinedApiKey, baseUrl, proxy);
         assertNotificationWithProxy(proxy, client);
     }
 
     @Test
     public void testCreateNotificationClient_withSingleApiKeyServiceIdAndProxy() {
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.0.0.1", 8080));
-        NotificationClient client = new NotificationClient(combinedApiKey, baseUrl, proxy);
+        NotifyClient client = new NotifyClient(combinedApiKey, baseUrl, proxy);
         assertNotificationWithProxy(proxy, client);
     }
 
     @Test
     public void testCreateNotificationClient_withSSLContext() throws NoSuchAlgorithmException {
         SSLContext sslContext = SSLContext.getDefault();
-        NotificationClient client = new NotificationClient(combinedApiKey, baseUrl, null, sslContext);
+        NotifyClient client = new NotifyClient(combinedApiKey, baseUrl, null, sslContext);
         assertNotificationClient(client);
 
     }
 
-    private void assertNotificationWithProxy(Proxy proxy, NotificationClient client) {
+    private void assertNotificationWithProxy(Proxy proxy, NotifyClient client) {
         assertEquals(client.getApiKey(), apiKey);
         assertEquals(client.getServiceId(), serviceId);
         assertEquals(client.getBaseUrl(), baseUrl);
         assertEquals(client.getProxy(), proxy);
     }
 
-    private void assertNotificationClient(final NotificationClient client){
+    private void assertNotificationClient(final NotifyClient client){
         assertEquals(client.getApiKey(), apiKey);
         assertEquals(client.getServiceId(), serviceId);
         assertEquals(client.getBaseUrl(), baseUrl);

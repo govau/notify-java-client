@@ -28,9 +28,9 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class NotificationClient implements NotificationClientApi {
+public class NotifyClient implements NotifyClientApi {
 
-    private static final Logger LOGGER = Logger.getLogger(NotificationClient.class.toString());
+    private static final Logger LOGGER = Logger.getLogger(NotifyClient.class.toString());
     private static final String LIVE_BASE_URL = "https://rest-api.notify.gov.au";
 
     private final String apiKey;
@@ -44,7 +44,7 @@ public class NotificationClient implements NotificationClientApi {
      *
      * @param apiKey Generate an API key by signing in to GOV.AU Notify, https://notify.gov.au, and going to the **API integration** page
      */
-    public NotificationClient(final String apiKey) {
+    public NotifyClient(final String apiKey) {
         this(
                 apiKey,
                 LIVE_BASE_URL,
@@ -58,7 +58,7 @@ public class NotificationClient implements NotificationClientApi {
      * @param apiKey Generate an API key by signing in to GOV.AU Notify, https://notify.gov.au, and going to the **API integration** page
      * @param proxy  Proxy used on the http requests
      */
-    public NotificationClient(final String apiKey, final Proxy proxy) {
+    public NotifyClient(final String apiKey, final Proxy proxy) {
         this(
                 apiKey,
                 LIVE_BASE_URL,
@@ -72,7 +72,7 @@ public class NotificationClient implements NotificationClientApi {
      * @param apiKey  Generate an API key by signing in to GOV.AU Notify, https://notify.gov.au, and going to the **API integration** page
      * @param baseUrl base URL, defaults to https://rest-api.notify.gov.au
      */
-    public NotificationClient(final String apiKey, final String baseUrl) {
+    public NotifyClient(final String apiKey, final String baseUrl) {
         this(
                 apiKey,
                 baseUrl,
@@ -86,7 +86,7 @@ public class NotificationClient implements NotificationClientApi {
      * @param baseUrl base URL, defaults to https://rest-api.notify.gov.au
      * @param proxy   Proxy used on the http requests
      */
-    public NotificationClient(final String apiKey, final String baseUrl, final Proxy proxy) {
+    public NotifyClient(final String apiKey, final String baseUrl, final Proxy proxy) {
         this(
                 apiKey,
                 baseUrl,
@@ -100,10 +100,10 @@ public class NotificationClient implements NotificationClientApi {
         }
     }
 
-    public NotificationClient(final String apiKey,
-                              final String baseUrl,
-                              final Proxy proxy,
-                              final SSLContext sslContext) {
+    public NotifyClient(final String apiKey,
+                        final String baseUrl,
+                        final Proxy proxy,
+                        final SSLContext sslContext) {
 
         this.apiKey = extractApiKey(apiKey);
         this.serviceId = extractServiceId(apiKey);

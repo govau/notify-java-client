@@ -24,7 +24,7 @@ public class ClientIntegrationTestIT {
 
     @Test
     public void testEmailNotificationIT() throws NotificationClientException, InterruptedException {
-        NotificationClient client = getClient();
+        NotifyClient client = getClient();
         SendEmailResponse emailResponse = sendEmailAndAssertResponse(client);
         Notification notification = client.getNotificationById(emailResponse.getNotificationId().toString());
         assertNotification(notification);
@@ -32,7 +32,7 @@ public class ClientIntegrationTestIT {
 
     @Test
     public void testSmsNotificationIT() throws NotificationClientException, InterruptedException {
-        NotificationClient client = getClient();
+        NotifyClient client = getClient();
         SendSmsResponse response = sendSmsAndAssertResponse(client);
         Notification notification = client.getNotificationById(response.getNotificationId().toString());
         assertNotification(notification);
@@ -40,7 +40,7 @@ public class ClientIntegrationTestIT {
 
     @Test
     public void testGetAllNotifications() throws NotificationClientException {
-        NotificationClient client = getClient();
+        NotifyClient client = getClient();
         NotificationList notificationList = client.getNotifications(null, null, null, null);
         assertNotNull(notificationList);
         assertNotNull(notificationList.getNotifications());
@@ -61,7 +61,7 @@ public class ClientIntegrationTestIT {
 
     @Test
     public void testEmailNotificationWithoutPersonalisationReturnsErrorMessageIT() {
-        NotificationClient client = getClient();
+        NotifyClient client = getClient();
         try {
             client.sendEmail(System.getenv("EMAIL_TEMPLATE_ID"), System.getenv("FUNCTIONAL_TEST_EMAIL"), null, null);
             fail("Expected NotificationClientException: Template missing personalisation: name");
@@ -74,7 +74,7 @@ public class ClientIntegrationTestIT {
 
     @Test
     public void testEmailNotificationWithValidEmailReplyToIdIT() throws NotificationClientException, InterruptedException {
-        NotificationClient client = getClient();
+        NotifyClient client = getClient();
         SendEmailResponse emailResponse = sendEmailAndAssertResponse(client);
 
         HashMap<String, String> personalisation = new HashMap<>();
@@ -96,7 +96,7 @@ public class ClientIntegrationTestIT {
 
     @Test
     public void testEmailNotificationWithInValidEmailReplyToIdIT() throws NotificationClientException, InterruptedException {
-        NotificationClient client = getClient();
+        NotifyClient client = getClient();
         SendEmailResponse emailResponse = sendEmailAndAssertResponse(client);
 
         HashMap<String, String> personalisation = new HashMap<>();
@@ -128,7 +128,7 @@ public class ClientIntegrationTestIT {
 
     @Test
     public void testSmsNotificationWithoutPersonalisationReturnsErrorMessageIT() {
-        NotificationClient client = getClient();
+        NotifyClient client = getClient();
         try {
             client.sendSms(System.getenv("SMS_TEMPLATE_ID"), System.getenv("FUNCTIONAL_TEST_NUMBER"), null, null);
             fail("Expected NotificationClientException: Template missing personalisation: name");
@@ -140,7 +140,7 @@ public class ClientIntegrationTestIT {
 
     @Test
     public void testSmsNotificationWithValidSmsSenderIdIT() throws NotificationClientException, InterruptedException {
-        NotificationClient client = getClient("API_SENDING_KEY");
+        NotifyClient client = getClient("API_SENDING_KEY");
 
         HashMap<String, String> personalisation = new HashMap<>();
         String uniqueName = UUID.randomUUID().toString();
@@ -161,7 +161,7 @@ public class ClientIntegrationTestIT {
 
     @Test
     public void testSmsNotificationWithInValidSmsSenderIdIT() throws NotificationClientException, InterruptedException {
-        NotificationClient client = getClient();
+        NotifyClient client = getClient();
 
         HashMap<String, String> personalisation = new HashMap<>();
         String uniqueName = UUID.randomUUID().toString();
@@ -192,7 +192,7 @@ public class ClientIntegrationTestIT {
 
     @Test
     public void testSendAndGetNotificationWithReference() throws NotificationClientException {
-        NotificationClient client = getClient();
+        NotifyClient client = getClient();
         HashMap<String, String> personalisation = new HashMap<String, String>();
         String uniqueString = UUID.randomUUID().toString();
         personalisation.put("name", uniqueString);
@@ -205,7 +205,7 @@ public class ClientIntegrationTestIT {
 
     @Test
     public void testGetTemplateById() throws NotificationClientException {
-        NotificationClient client = getClient();
+        NotifyClient client = getClient();
         Template template = client.getTemplateById(System.getenv("EMAIL_TEMPLATE_ID"));
         assertEquals(System.getenv("EMAIL_TEMPLATE_ID"), template.getId().toString());
         assertNotNull(template.getVersion());
@@ -218,7 +218,7 @@ public class ClientIntegrationTestIT {
 
     @Test
     public void testGetTemplateVersion() throws NotificationClientException {
-        NotificationClient client = getClient();
+        NotifyClient client = getClient();
         Template template = client.getTemplateVersion(System.getenv("SMS_TEMPLATE_ID"), 1);
         assertEquals(System.getenv("SMS_TEMPLATE_ID"), template.getId().toString());
         assertNotNull(template.getVersion());
@@ -230,14 +230,14 @@ public class ClientIntegrationTestIT {
 
     @Test
     public void testGetAllTemplates() throws NotificationClientException {
-        NotificationClient client = getClient();
+        NotifyClient client = getClient();
         TemplateList templateList = client.getAllTemplates("");
         assertTrue(2 <= templateList.getTemplates().size());
     }
 
     @Test
     public void testGetTemplatePreview() throws NotificationClientException {
-        NotificationClient client = getClient();
+        NotifyClient client = getClient();
         HashMap<String, String> personalisation = new HashMap<>();
         String uniqueName = UUID.randomUUID().toString();
         personalisation.put("name", uniqueName);
@@ -250,19 +250,19 @@ public class ClientIntegrationTestIT {
         assertTrue(template.getBody().contains(uniqueName));
     }
 
-    private NotificationClient getClient(){
+    private NotifyClient getClient(){
         String apiKey = System.getenv("API_KEY");
         String baseUrl = System.getenv("NOTIFY_API_URL");
-        return new NotificationClient(apiKey, baseUrl);
+        return new NotifyClient(apiKey, baseUrl);
     }
 
-    private NotificationClient getClient(String api_key){
+    private NotifyClient getClient(String api_key){
         String apiKey = System.getenv(api_key);
         String baseUrl = System.getenv("NOTIFY_API_URL");
-        return new NotificationClient(apiKey, baseUrl);
+        return new NotifyClient(apiKey, baseUrl);
     }
 
-    private SendEmailResponse sendEmailAndAssertResponse(final NotificationClient client) throws NotificationClientException {
+    private SendEmailResponse sendEmailAndAssertResponse(final NotifyClient client) throws NotificationClientException {
         HashMap<String, String> personalisation = new HashMap<>();
         String uniqueName = UUID.randomUUID().toString();
         personalisation.put("name", uniqueName);
@@ -272,7 +272,7 @@ public class ClientIntegrationTestIT {
         return response;
     }
 
-    private SendSmsResponse sendSmsAndAssertResponse(final NotificationClient client) throws NotificationClientException {
+    private SendSmsResponse sendSmsAndAssertResponse(final NotifyClient client) throws NotificationClientException {
         HashMap<String, String> personalisation = new HashMap<>();
         String uniqueName = UUID.randomUUID().toString();
         personalisation.put("name", uniqueName);

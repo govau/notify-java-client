@@ -20,8 +20,8 @@ Refer to the [client changelog](https://github.com/govau/notify-client-java/blob
 Add this code to your application:
 
 ```java
-import au.gov.notify.NotificationClient;
-NotificationClient client = new NotificationClient(apiKey);
+import au.gov.notify.NotifyClient;
+NotifyClient client = new NotifyClient(apiKey);
 ```
 
 To get an API key, [sign in to GOV.AU Notify](https://notify.gov.au/) and go to the __API integration__ page. You can find more information in the [API keys](#api-keys) section of the documentation.

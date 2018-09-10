@@ -69,7 +69,7 @@ def pomConfig = {
     licenses {
         license {
             name "The MIT License"
-            url "https://github.com/govau/notify-client-java/blob/master/License"
+            url "https://github.com/govau/notify-client-java/blob/master/LICENSE"
             distribution "repo"
         }
     }
