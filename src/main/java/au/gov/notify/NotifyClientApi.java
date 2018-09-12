@@ -23,9 +23,9 @@ public interface NotifyClientApi {
      *                        This reference can be unique or used used to refer to a batch of notifications.
      *                        Can be an empty string or null, when you do not require a reference for the notifications.
      * @return <code>SendEmailResponse</code>
-     * @throws NotificationClientException
+     * @throws NotifyClientException
      */
-    SendEmailResponse sendEmail(String templateId, String emailAddress, Map<String, String> personalisation, String reference) throws NotificationClientException;
+    SendEmailResponse sendEmail(String templateId, String emailAddress, Map<String, String> personalisation, String reference) throws NotifyClientException;
 
 
     /**
@@ -42,9 +42,9 @@ public interface NotifyClientApi {
      *                        Service emailReplyToIds can be accessed via the service settings / manage email reply to addresses page.
      *                        Omit this argument to use the default service email reply to address.
      * @return <code>SendEmailResponse</code>
-     * @throws NotificationClientException
+     * @throws NotifyClientException
      */
-    SendEmailResponse sendEmail(String templateId, String emailAddress, Map<String, String> personalisation, String reference, String emailReplyToId) throws NotificationClientException;
+    SendEmailResponse sendEmail(String templateId, String emailAddress, Map<String, String> personalisation, String reference, String emailReplyToId) throws NotifyClientException;
 
     /**
      * The sendSms method will create an HTTPS POST request. A JWT token will be created and added as an Authorization header to the request.
@@ -57,9 +57,9 @@ public interface NotifyClientApi {
      *                        This reference can be unique or used used to refer to a batch of notifications.
      *                        Can be an empty string or null, when you do not require a reference for the notifications.
      * @return <code>SendSmsResponse</code>
-     * @throws NotificationClientException
+     * @throws NotifyClientException
      */
-    SendSmsResponse sendSms(String templateId, String phoneNumber, Map<String, String> personalisation, String reference) throws NotificationClientException;
+    SendSmsResponse sendSms(String templateId, String phoneNumber, Map<String, String> personalisation, String reference) throws NotifyClientException;
 
     /**
      * The sendSms method will create an HTTPS POST request. A JWT token will be created and added as an Authorization header to the request.
@@ -75,9 +75,9 @@ public interface NotifyClientApi {
      *                        Service smsSenderIds can be accessed via the service settings / manage text message senders page.
      *                        Omit this argument to use the default service text message sender.
      * @return <code>SendSmsResponse</code>
-     * @throws NotificationClientException
+     * @throws NotifyClientException
      */
-    SendSmsResponse sendSms(String templateId, String phoneNumber, Map<String, String> personalisation, String reference, String smsSenderId) throws NotificationClientException;
+    SendSmsResponse sendSms(String templateId, String phoneNumber, Map<String, String> personalisation, String reference, String smsSenderId) throws NotifyClientException;
 
     /**
      * The getNotificationById method will return a <code>Notification</code> for a given notification id.
@@ -85,9 +85,9 @@ public interface NotifyClientApi {
      *
      * @param notificationId The id of the notification.
      * @return <code>Notification</code>
-     * @throws NotificationClientException
+     * @throws NotifyClientException
      */
-    Notification getNotificationById(String notificationId) throws NotificationClientException;
+    Notification getNotificationById(String notificationId) throws NotifyClientException;
 
     /**
      * The getNotifications method will create a GET HTTPS request to retrieve all the notifications.
@@ -99,18 +99,18 @@ public interface NotifyClientApi {
      * @param reference If reference is not empty or null only the notifications with that reference are returned.
      * @param olderThanId If olderThanId is not empty or null only the notifications older than that notification id are returned.
      * @return <code>NotificationList</code>
-     * @throws NotificationClientException
+     * @throws NotifyClientException
      */
-    NotificationList getNotifications(String status, String notification_type, String reference, String olderThanId) throws NotificationClientException;
+    NotificationList getNotifications(String status, String notification_type, String reference, String olderThanId) throws NotifyClientException;
 
     /**
      * The getTemplateById returns a <code>Template</code> given the template id.
      *
      * @param templateId The template id is visible on the template page in the application.
      * @return <code>Template</code>
-     * @throws NotificationClientException
+     * @throws NotifyClientException
      */
-    Template getTemplateById(String templateId) throws NotificationClientException;
+    Template getTemplateById(String templateId) throws NotifyClientException;
 
     /**
      * The getTemplateVersion returns a <code>Template</code> given the template id and version.
@@ -118,9 +118,9 @@ public interface NotifyClientApi {
      * @param templateId The template id is visible on the template page in the application.
      * @param version The version of the template to return
      * @return <code>Template</code>
-     * @throws NotificationClientException
+     * @throws NotifyClientException
      */
-    Template getTemplateVersion(String templateId, int version) throws NotificationClientException;
+    Template getTemplateVersion(String templateId, int version) throws NotifyClientException;
 
     /**
      * Returns all the templates for your service. Filtered by template type if not null.
@@ -128,9 +128,9 @@ public interface NotifyClientApi {
      * @param templateType If templateType is not empty or null templates will be filtered by type.
      *          Possible template types are email|sms|letter
      * @return <code>TemplateList</code>
-     * @throws NotificationClientException
+     * @throws NotifyClientException
      */
-    TemplateList getAllTemplates(String templateType) throws NotificationClientException;
+    TemplateList getAllTemplates(String templateType) throws NotifyClientException;
 
     /**
      * The generateTemplatePreview returns a template with the placeholders replaced with the given personalisation.
@@ -139,7 +139,7 @@ public interface NotifyClientApi {
      * @param personalisation Map representing the placeholders for the template if any. For example, key=name value=Bob
      *                        Can be an empty map or null when the template does not require placeholders.
      * @return <code>Template</code>
-     * @throws NotificationClientException
+     * @throws NotifyClientException
      */
-    TemplatePreview generateTemplatePreview(String templateId, Map<String, String> personalisation) throws NotificationClientException;
+    TemplatePreview generateTemplatePreview(String templateId, Map<String, String> personalisation) throws NotifyClientException;
 }

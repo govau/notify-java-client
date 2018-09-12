@@ -23,7 +23,7 @@ import static org.junit.Assert.fail;
 public class ClientIntegrationTestIT {
 
     @Test
-    public void testEmailNotificationIT() throws NotificationClientException, InterruptedException {
+    public void testEmailNotificationIT() throws NotifyClientException, InterruptedException {
         NotifyClient client = getClient();
         SendEmailResponse emailResponse = sendEmailAndAssertResponse(client);
         Notification notification = client.getNotificationById(emailResponse.getNotificationId().toString());
@@ -31,7 +31,7 @@ public class ClientIntegrationTestIT {
     }
 
     @Test
-    public void testSmsNotificationIT() throws NotificationClientException, InterruptedException {
+    public void testSmsNotificationIT() throws NotifyClientException, InterruptedException {
         NotifyClient client = getClient();
         SendSmsResponse response = sendSmsAndAssertResponse(client);
         Notification notification = client.getNotificationById(response.getNotificationId().toString());
@@ -39,7 +39,7 @@ public class ClientIntegrationTestIT {
     }
 
     @Test
-    public void testGetAllNotifications() throws NotificationClientException {
+    public void testGetAllNotifications() throws NotifyClientException {
         NotifyClient client = getClient();
         NotificationList notificationList = client.getNotifications(null, null, null, null);
         assertNotNull(notificationList);
@@ -64,8 +64,8 @@ public class ClientIntegrationTestIT {
         NotifyClient client = getClient();
         try {
             client.sendEmail(System.getenv("EMAIL_TEMPLATE_ID"), System.getenv("FUNCTIONAL_TEST_EMAIL"), null, null);
-            fail("Expected NotificationClientException: Template missing personalisation: name");
-        } catch (NotificationClientException e) {
+            fail("Expected NotifyClientException: Template missing personalisation: name");
+        } catch (NotifyClientException e) {
             assert(e.getMessage().contains("Missing personalisation: name"));
             assert e.getHttpResult() == 400;
             assert(e.getMessage().contains("BadRequestError"));
@@ -73,7 +73,7 @@ public class ClientIntegrationTestIT {
     }
 
     @Test
-    public void testEmailNotificationWithValidEmailReplyToIdIT() throws NotificationClientException, InterruptedException {
+    public void testEmailNotificationWithValidEmailReplyToIdIT() throws NotifyClientException, InterruptedException {
         NotifyClient client = getClient();
         SendEmailResponse emailResponse = sendEmailAndAssertResponse(client);
 
@@ -95,7 +95,7 @@ public class ClientIntegrationTestIT {
     }
 
     @Test
-    public void testEmailNotificationWithInValidEmailReplyToIdIT() throws NotificationClientException, InterruptedException {
+    public void testEmailNotificationWithInValidEmailReplyToIdIT() throws NotifyClientException, InterruptedException {
         NotifyClient client = getClient();
         SendEmailResponse emailResponse = sendEmailAndAssertResponse(client);
 
@@ -116,7 +116,7 @@ public class ClientIntegrationTestIT {
                     uniqueName,
                     fake_uuid.toString());
         }
-        catch (final NotificationClientException ex)
+        catch (final NotifyClientException ex)
         {
             exceptionThrown = true;
             assertTrue(ex.getMessage().contains("does not exist in database for service id"));
@@ -131,15 +131,15 @@ public class ClientIntegrationTestIT {
         NotifyClient client = getClient();
         try {
             client.sendSms(System.getenv("SMS_TEMPLATE_ID"), System.getenv("FUNCTIONAL_TEST_NUMBER"), null, null);
-            fail("Expected NotificationClientException: Template missing personalisation: name");
-        } catch (NotificationClientException e) {
+            fail("Expected NotifyClientException: Template missing personalisation: name");
+        } catch (NotifyClientException e) {
             assert(e.getMessage().contains("Missing personalisation: name"));
             assert(e.getMessage().contains("Status code: 400"));
         }
     }
 
     @Test
-    public void testSmsNotificationWithValidSmsSenderIdIT() throws NotificationClientException, InterruptedException {
+    public void testSmsNotificationWithValidSmsSenderIdIT() throws NotifyClientException, InterruptedException {
         NotifyClient client = getClient("API_SENDING_KEY");
 
         HashMap<String, String> personalisation = new HashMap<>();
@@ -160,7 +160,7 @@ public class ClientIntegrationTestIT {
     }
 
     @Test
-    public void testSmsNotificationWithInValidSmsSenderIdIT() throws NotificationClientException, InterruptedException {
+    public void testSmsNotificationWithInValidSmsSenderIdIT() throws NotifyClientException, InterruptedException {
         NotifyClient client = getClient();
 
         HashMap<String, String> personalisation = new HashMap<>();
@@ -180,7 +180,7 @@ public class ClientIntegrationTestIT {
                     uniqueName,
                     fake_uuid.toString());
         }
-        catch (final NotificationClientException ex)
+        catch (final NotifyClientException ex)
         {
             exceptionThrown = true;
             assertTrue(ex.getMessage().contains("does not exist in database for service id"));
@@ -191,7 +191,7 @@ public class ClientIntegrationTestIT {
     }
 
     @Test
-    public void testSendAndGetNotificationWithReference() throws NotificationClientException {
+    public void testSendAndGetNotificationWithReference() throws NotifyClientException {
         NotifyClient client = getClient();
         HashMap<String, String> personalisation = new HashMap<String, String>();
         String uniqueString = UUID.randomUUID().toString();
@@ -204,7 +204,7 @@ public class ClientIntegrationTestIT {
     }
 
     @Test
-    public void testGetTemplateById() throws NotificationClientException {
+    public void testGetTemplateById() throws NotifyClientException {
         NotifyClient client = getClient();
         Template template = client.getTemplateById(System.getenv("EMAIL_TEMPLATE_ID"));
         assertEquals(System.getenv("EMAIL_TEMPLATE_ID"), template.getId().toString());
@@ -217,7 +217,7 @@ public class ClientIntegrationTestIT {
     }
 
     @Test
-    public void testGetTemplateVersion() throws NotificationClientException {
+    public void testGetTemplateVersion() throws NotifyClientException {
         NotifyClient client = getClient();
         Template template = client.getTemplateVersion(System.getenv("SMS_TEMPLATE_ID"), 1);
         assertEquals(System.getenv("SMS_TEMPLATE_ID"), template.getId().toString());
@@ -229,14 +229,14 @@ public class ClientIntegrationTestIT {
     }
 
     @Test
-    public void testGetAllTemplates() throws NotificationClientException {
+    public void testGetAllTemplates() throws NotifyClientException {
         NotifyClient client = getClient();
         TemplateList templateList = client.getAllTemplates("");
         assertTrue(2 <= templateList.getTemplates().size());
     }
 
     @Test
-    public void testGetTemplatePreview() throws NotificationClientException {
+    public void testGetTemplatePreview() throws NotifyClientException {
         NotifyClient client = getClient();
         HashMap<String, String> personalisation = new HashMap<>();
         String uniqueName = UUID.randomUUID().toString();
@@ -262,7 +262,7 @@ public class ClientIntegrationTestIT {
         return new NotifyClient(apiKey, baseUrl);
     }
 
-    private SendEmailResponse sendEmailAndAssertResponse(final NotifyClient client) throws NotificationClientException {
+    private SendEmailResponse sendEmailAndAssertResponse(final NotifyClient client) throws NotifyClientException {
         HashMap<String, String> personalisation = new HashMap<>();
         String uniqueName = UUID.randomUUID().toString();
         personalisation.put("name", uniqueName);
@@ -272,7 +272,7 @@ public class ClientIntegrationTestIT {
         return response;
     }
 
-    private SendSmsResponse sendSmsAndAssertResponse(final NotifyClient client) throws NotificationClientException {
+    private SendSmsResponse sendSmsAndAssertResponse(final NotifyClient client) throws NotifyClientException {
         HashMap<String, String> personalisation = new HashMap<>();
         String uniqueName = UUID.randomUUID().toString();
         personalisation.put("name", uniqueName);

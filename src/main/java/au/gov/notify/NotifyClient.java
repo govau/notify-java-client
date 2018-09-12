@@ -143,7 +143,7 @@ public class NotifyClient implements NotifyClientApi {
     public SendEmailResponse sendEmail(String templateId,
                                        String emailAddress,
                                        Map<String, String> personalisation,
-                                       String reference) throws NotificationClientException {
+                                       String reference) throws NotifyClientException {
         return sendEmail(templateId, emailAddress, personalisation, reference, "");
     }
 
@@ -152,7 +152,7 @@ public class NotifyClient implements NotifyClientApi {
                                        String emailAddress,
                                        Map<String, String> personalisation,
                                        String reference,
-                                       String emailReplyToId) throws NotificationClientException {
+                                       String emailReplyToId) throws NotifyClientException {
 
         JSONObject body = createBodyForPostRequest(templateId,
                 null,
@@ -174,7 +174,7 @@ public class NotifyClient implements NotifyClientApi {
     public SendSmsResponse sendSms(String templateId,
                                    String phoneNumber,
                                    Map<String, String> personalisation,
-                                   String reference) throws NotificationClientException {
+                                   String reference) throws NotifyClientException {
 
         return sendSms(templateId, phoneNumber, personalisation, reference, "");
     }
@@ -184,7 +184,7 @@ public class NotifyClient implements NotifyClientApi {
                                    String phoneNumber,
                                    Map<String, String> personalisation,
                                    String reference,
-                                   String smsSenderId) throws NotificationClientException {
+                                   String smsSenderId) throws NotifyClientException {
 
         JSONObject body = createBodyForPostRequest(templateId,
                 phoneNumber,
@@ -202,7 +202,7 @@ public class NotifyClient implements NotifyClientApi {
     }
 
     @Override
-    public Notification getNotificationById(String notificationId) throws NotificationClientException {
+    public Notification getNotificationById(String notificationId) throws NotifyClientException {
         String url = baseUrl + "/v2/notifications/" + notificationId;
         HttpURLConnection conn = createConnectionAndSetHeaders(url, "GET");
         String response = performGetRequest(conn);
@@ -211,7 +211,7 @@ public class NotifyClient implements NotifyClientApi {
     }
 
     @Override
-    public NotificationList getNotifications(String status, String notification_type, String reference, String olderThanId) throws NotificationClientException {
+    public NotificationList getNotifications(String status, String notification_type, String reference, String olderThanId) throws NotifyClientException {
         try {
             URIBuilder builder = new URIBuilder(baseUrl + "/v2/notifications");
             if (status != null && !status.isEmpty()) {
@@ -232,12 +232,12 @@ public class NotifyClient implements NotifyClientApi {
             return new NotificationList(response);
         } catch (URISyntaxException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new NotificationClientException(e);
+            throw new NotifyClientException(e);
         }
     }
 
     @Override
-    public Template getTemplateById(String templateId) throws NotificationClientException {
+    public Template getTemplateById(String templateId) throws NotifyClientException {
         String url = baseUrl + "/v2/template/" + templateId;
         HttpURLConnection conn = createConnectionAndSetHeaders(url, "GET");
         String response = performGetRequest(conn);
@@ -245,7 +245,7 @@ public class NotifyClient implements NotifyClientApi {
     }
 
     @Override
-    public Template getTemplateVersion(String templateId, int version) throws NotificationClientException {
+    public Template getTemplateVersion(String templateId, int version) throws NotifyClientException {
         String url = baseUrl + "/v2/template/" + templateId + "/version/" + version;
         HttpURLConnection conn = createConnectionAndSetHeaders(url, "GET");
         String response = performGetRequest(conn);
@@ -253,7 +253,7 @@ public class NotifyClient implements NotifyClientApi {
     }
 
     @Override
-    public TemplateList getAllTemplates(String templateType) throws NotificationClientException {
+    public TemplateList getAllTemplates(String templateType) throws NotifyClientException {
         try {
             URIBuilder builder = new URIBuilder(baseUrl + "/v2/templates");
             if (templateType != null && !templateType.isEmpty()) {
@@ -264,12 +264,12 @@ public class NotifyClient implements NotifyClientApi {
             return new TemplateList(response);
         } catch (URISyntaxException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new NotificationClientException(e);
+            throw new NotifyClientException(e);
         }
     }
 
     @Override
-    public TemplatePreview generateTemplatePreview(String templateId, Map<String, String> personalisation) throws NotificationClientException {
+    public TemplatePreview generateTemplatePreview(String templateId, Map<String, String> personalisation) throws NotifyClientException {
         JSONObject body = new JSONObject();
         if (personalisation != null && !personalisation.isEmpty()) {
             body.put("personalisation", new JSONObject(personalisation));
@@ -279,7 +279,7 @@ public class NotifyClient implements NotifyClientApi {
         return new TemplatePreview(response);
     }
 
-    private String performPostRequest(HttpURLConnection conn, JSONObject body, int expectedStatusCode) throws NotificationClientException {
+    private String performPostRequest(HttpURLConnection conn, JSONObject body, int expectedStatusCode) throws NotifyClientException {
         try {
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
             wr.write(body.toString());
@@ -291,12 +291,12 @@ public class NotifyClient implements NotifyClientApi {
                 return sb.toString();
             } else {
                 StringBuilder sb = readStream(new InputStreamReader(conn.getErrorStream(), "utf-8"));
-                throw new NotificationClientException(httpResult, sb.toString());
+                throw new NotifyClientException(httpResult, sb.toString());
             }
 
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new NotificationClientException(e);
+            throw new NotifyClientException(e);
         } finally {
             if (conn != null) {
                 conn.disconnect();
@@ -304,7 +304,7 @@ public class NotifyClient implements NotifyClientApi {
         }
     }
 
-    private String performGetRequest(HttpURLConnection conn) throws NotificationClientException {
+    private String performGetRequest(HttpURLConnection conn) throws NotifyClientException {
         try {
             int httpResult = conn.getResponseCode();
             StringBuilder stringBuilder;
@@ -314,11 +314,11 @@ public class NotifyClient implements NotifyClientApi {
                 return stringBuilder.toString();
             } else {
                 stringBuilder = readStream(new InputStreamReader(conn.getErrorStream(), "utf-8"));
-                throw new NotificationClientException(httpResult, stringBuilder.toString());
+                throw new NotifyClientException(httpResult, stringBuilder.toString());
             }
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new NotificationClientException(e);
+            throw new NotifyClientException(e);
         } finally {
             if (conn != null) {
                 conn.disconnect();
@@ -326,7 +326,7 @@ public class NotifyClient implements NotifyClientApi {
         }
     }
 
-    private HttpURLConnection createConnectionAndSetHeaders(String urlString, String method) throws NotificationClientException {
+    private HttpURLConnection createConnectionAndSetHeaders(String urlString, String method) throws NotifyClientException {
         try {
             URL url = new URL(urlString);
             HttpURLConnection conn = getConnection(url);
@@ -344,7 +344,7 @@ public class NotifyClient implements NotifyClientApi {
             return conn;
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.toString(), e);
-            throw new NotificationClientException(e);
+            throw new NotifyClientException(e);
         }
     }
 
