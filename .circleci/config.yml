@@ -87,10 +87,10 @@ workflows:
         - download-dependencies
 
     - approve-publish-to-bintray:
-      <<: *master_branch
-      type: approval
-      requires:
-      - test-and-build
+        <<: *master_branch
+        type: approval
+        requires:
+        - test-and-build
 
     - publish-to-bintray-jcenter:
         <<: *master_branch
