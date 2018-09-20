@@ -86,7 +86,7 @@ workflows:
         requires:
         - download-dependencies
 
-    - publish-to-bintray?:
+    - approve-publish-to-bintray:
       <<: *master_branch
       type: approval
       requires:
@@ -95,4 +95,4 @@ workflows:
     - publish-to-bintray-jcenter:
         <<: *master_branch
         requires:
-        - publish-to-bintray?
+        - approve-publish-to-bintray
