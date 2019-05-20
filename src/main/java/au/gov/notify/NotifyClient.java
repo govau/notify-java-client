@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.net.HttpURLConnection;
 import java.net.Proxy;
 import java.net.URISyntaxException;
@@ -281,16 +282,16 @@ public class NotifyClient implements NotifyClientApi {
 
     private String performPostRequest(HttpURLConnection conn, JSONObject body, int expectedStatusCode) throws NotifyClientException {
         try {
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), StandardCharsets.UTF_8);
             wr.write(body.toString());
             wr.flush();
 
             int httpResult = conn.getResponseCode();
             if (httpResult == expectedStatusCode) {
-                StringBuilder sb = readStream(new InputStreamReader(conn.getInputStream(), "utf-8"));
+                StringBuilder sb = readStream(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
                 return sb.toString();
             } else {
-                StringBuilder sb = readStream(new InputStreamReader(conn.getErrorStream(), "utf-8"));
+                StringBuilder sb = readStream(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
                 throw new NotifyClientException(httpResult, sb.toString());
             }
 
@@ -309,11 +310,11 @@ public class NotifyClient implements NotifyClientApi {
             int httpResult = conn.getResponseCode();
             StringBuilder stringBuilder;
             if (httpResult == 200) {
-                stringBuilder = readStream(new InputStreamReader(conn.getInputStream()));
+                stringBuilder = readStream(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
                 conn.disconnect();
                 return stringBuilder.toString();
             } else {
-                stringBuilder = readStream(new InputStreamReader(conn.getErrorStream(), "utf-8"));
+                stringBuilder = readStream(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
                 throw new NotifyClientException(httpResult, stringBuilder.toString());
             }
         } catch (IOException e) {
